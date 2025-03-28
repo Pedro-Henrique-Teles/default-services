@@ -16,7 +16,10 @@ services:
       - internal_network
 
   postgres_ui:
-    image: adminer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: meu-adminer-dracula
     restart: always
     env_file: .env
     tty: true
