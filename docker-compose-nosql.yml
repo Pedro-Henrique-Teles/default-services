@@ -1,0 +1,35 @@
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    tty: true
+    env_file: .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGODB_USER}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_PASS}"
+    ports:
+      - "${MONGODB_EXPOSE_PORT}:${MONGODB_PORT}"
+      - "${MONGODB_EXPOSE_CONNECTION_PORT}:${MONGODB_CONNECTION_PORT}"
+    volumes:
+      - ./.docker/mongo-db-data:/data/db
+    networks:
+      - default-svc-network
+    restart: always
+  mongo_ui:
+    image: mongo-express
+    restart: always
+    env_file: .env
+    ports:
+      - "${ME_EXPOSE_PORT}:${ME_PORT}"
+    environment:
+      - "ME_CONFIG_MONGODB_PORT:${MONGODB_PORT}"
+      - "ME_CONFIG_MONGODB_ADMINUSERNAME:${MONGODB_USER}"
+      - "ME_CONFIG_MONGODB_ADMINPASSWORD:${MONGODB_PASS}"
+    networks:
+      - default-svc-network
+    depends_on:
+      - mongo
+networks:
+  internal_network:
+    driver: bridge

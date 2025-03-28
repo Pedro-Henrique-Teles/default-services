@@ -1,0 +1,10 @@
+.cache/
+.script/
+.docker/*
+!.docker/.gitkeep
+
+.env*
+!.env.example
+
+*.lock
+*.log

@@ -1,0 +1,17 @@
+version: "3.2"
+services:
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: rabbitmq
+    hostname: rabbitmq
+    tty: true
+    env_file: .env
+    ports:
+      - "${RABBITMQ_EXPOSE_PORT}:${RABBITMQ_PORT}"
+      - "${RABBITMQ_ADMIN_EXPOSE_PORT}:${RABBITMQ_ADMIN_PORT}"
+    networks:
+      - default-svc-network
+networks:
+  default-svc-network:
+    external: true
+    name: default-svc-network
